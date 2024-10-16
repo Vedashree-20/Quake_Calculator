@@ -111,8 +111,8 @@ function displayEarthquakeData(response) {
   resultElement.innerHTML = detail;
 }
 
-function fetchEarthquakeData(startDate, endDate) {
-  let apiUrl = `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=${startDate}&endtime=${endDate}&limit=5`;
+function fetchEarthquakeData(startDate, endDate, limit) {
+  let apiUrl = `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=${startDate}&endtime=${endDate}&limit=${limit}`;
   axios
     .get(apiUrl)
     .then(displayEarthquakeData)
@@ -126,6 +126,9 @@ function formatDate(event) {
   console.log(startDateElement);
   let endDateElement = document.querySelector("#end-date").value;
   console.log(endDateElement);
+  let numberListElement = document.querySelector("#list-size").value;
+  let numberList = +numberListElement;
+  console.log(numberList);
   if (
     (!startDateElement && !endDateElement) ||
     !startDateElement ||
@@ -133,7 +136,7 @@ function formatDate(event) {
   ) {
     alert("Please enter start date and end date!");
   } else {
-    fetchEarthquakeData(startDateElement, endDateElement);
+    fetchEarthquakeData(startDateElement, endDateElement, numberList);
   }
 }
 

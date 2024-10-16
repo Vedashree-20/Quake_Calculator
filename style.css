@@ -58,7 +58,8 @@ body {
   cursor: pointer;
 }
 .start input,
-.end input {
+.end input,
+.list-number {
   font-family: "Roboto", sans-serif;
   color: rgb(125, 125, 125);
   width: 100%;
@@ -68,6 +69,11 @@ body {
   border: none;
   border-radius: 5px;
 }
+.results {
+  max-height: 1000px;
+  overflow-y: auto;
+}
+
 .result-list {
   display: flex;
   background-color: rgb(243, 243, 243);
