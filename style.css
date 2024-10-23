@@ -5,12 +5,15 @@ body {
 .container {
   display: flex;
   background: rgb(243, 243, 243);
-  max-width: 1200px;
+  width: 1200px;
   max-height: 1000px;
   margin: 100px auto;
   border-radius: 10px;
   padding: 20px 30px 20px 30px;
   box-sizing: border-box;
+}
+.outer-container {
+  display: flex;
 }
 .results {
   background-image: url(shefali-lincoln-yNFVWsQicdg-unsplash.jpg);
@@ -57,6 +60,10 @@ body {
   border-radius: 5px;
   cursor: pointer;
 }
+.submit-btn > input:hover {
+  background-color: rgb(112, 168, 221);
+}
+
 .start input,
 .end input,
 .list-number {
@@ -174,4 +181,54 @@ body {
 .cancel-icon path:hover {
   cursor: pointer;
   stroke: rgb(108, 108, 108);
+}
+.widget-1 {
+  padding: 20px;
+  width: 550px;
+  height: auto;
+  margin: auto;
+  background-color: rgb(225, 224, 224);
+  border-radius: 8px;
+}
+.top5list {
+  display: flex;
+  background-color: rgb(243, 243, 243);
+  height: auto;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  gap: 30px;
+  align-items: center;
+}
+.widget-details p {
+  margin: 0px;
+}
+.widget-magnitude h2 {
+  position: relative;
+  padding: 0px;
+  margin: 0px;
+  font-size: 14px;
+  top: 5px;
+}
+.widget-magnitude {
+  margin: 0px;
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
+  text-align: center;
+}
+.widget-magnitude-keyword {
+  font-size: 10px;
+}
+.time-widget {
+  margin-right: 10px;
+  color: rgb(100 106 100);
+}
+.widget-place,
+.time-widget {
+  font-size: 14px;
+}
+
+.hide {
+  display: none;
 }

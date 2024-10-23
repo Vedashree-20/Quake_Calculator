@@ -20,40 +20,48 @@
     </style>
   </head>
   <body>
-    <div class="container">
-      <div class="input-container">
-        <h3>🌏 Quake Finder</h3>
-        <h2>
-          Real-Time Earthquake <br />
-          Data at Your Fingertips
-        </h2>
+    <div class="outer-container">
+      <div class="container">
+        <div class="input-container">
+          <h3>🌏 Quake Finder</h3>
+          <h2>
+            Real-Time Earthquake <br />
+            Data at Your Fingertips
+          </h2>
 
-        <form id="date-form">
-          <div class="start">
-            <label class="label" name="start-date">Start date </label>
-            <input type="date" id="start-date" />
-          </div>
-          <div class="end">
-            <label class="label" name="end-date">End date </label>
-            <input type="date" id="end-date" />
-          </div>
+          <form id="date-form">
+            <div class="start">
+              <label class="label" name="start-date">Start date </label>
+              <input type="date" id="start-date" />
+            </div>
+            <div class="end">
+              <label class="label" name="end-date">End date </label>
+              <input type="date" id="end-date" />
+            </div>
 
-          <label for="earthquakelist" class="label"
-            >Choose records to show</label
-          >
-          <select id="list-size" name="list-size" class="list-number">
-            <option value="5" selected>5</option>
-            <option value="10">10</option>
-            <option value="15">15</option>
-          </select>
-          <div class="submit-btn">
-            <input type="submit" placeholder="Submit" />
-          </div>
-        </form>
+            <label for="earthquakelist" class="label"
+              >Choose records to show</label
+            >
+            <select id="list-size" name="list-size" class="list-number">
+              <option value="5" selected>5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+            </select>
+            <div class="submit-btn">
+              <input type="submit" placeholder="Submit" />
+            </div>
+          </form>
+        </div>
+        <div id="results" class="results"></div>
+        <div id="overlay"></div>
+        <div id="popupModule"></div>
       </div>
-      <div id="results" class="results"></div>
-      <div id="overlay"></div>
-      <div id="popupModule"></div>
+      <div class="widget-1">
+        <h4>Top 5 earthquakes of the month:</h4>
+        <div class="widget-list">
+          <p id="widget-list-loading">Loading...</p>
+        </div>
+      </div>
     </div>
     <script src="index.js"></script>
   </body>

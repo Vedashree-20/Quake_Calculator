@@ -63,42 +63,43 @@ function formatTime(time) {
   return [newDateFormat, timeWithTimeZone];
 }
 
-function displayEarthquakeData(response) {
-  let earthquakeInfo = response.data.features;
-  let resultElement = document.querySelector("#results");
-  let detail = "";
-  //let moreDetails = "";
-  console.log(earthquakeInfo);
-  if (earthquakeInfo.length === 0) {
-    detail = `
+function displayEarthquakeData(startDate, endDate, limit) {
+  fetchEarthquakeData(startDate, endDate, limit).then((response) => {
+    let earthquakeInfo = response.data.features;
+    let resultElement = document.querySelector("#results");
+    let detail = "";
+    //let moreDetails = "";
+    console.log(earthquakeInfo);
+    if (earthquakeInfo.length === 0) {
+      detail = `
     <div class="result-list"> 
         <h2>No results found </h2>
     </div> `;
-  } else {
-    for (let i = 0; i < earthquakeInfo.length; i++) {
-      let id = i + 1;
-      let place = earthquakeInfo[i].properties.place;
-      let time = earthquakeInfo[i].properties.time;
-      let magnitude = earthquakeInfo[i].properties.mag;
-      let coordinaties = earthquakeInfo[i].geometry.coordinates;
-      let lat = coordinaties[1];
-      let long = coordinaties[0];
-      magnitude = magnitude.toFixed(2);
-      let formatedTime = formatTime(time);
-      let colorClass = changeColor(magnitude);
-      let earthquakeTitle = earthquakeInfo[i].properties.title;
-      let numberOfStations = earthquakeInfo[i].properties.nst;
+    } else {
+      for (let i = 0; i < earthquakeInfo.length; i++) {
+        let id = i + 1;
+        let place = earthquakeInfo[i].properties.place;
+        let time = earthquakeInfo[i].properties.time;
+        let magnitude = earthquakeInfo[i].properties.mag;
+        let coordinaties = earthquakeInfo[i].geometry.coordinates;
+        let lat = coordinaties[1];
+        let long = coordinaties[0];
+        magnitude = magnitude.toFixed(2);
+        let formatedTime = formatTime(time);
+        let colorClass = changeColor(magnitude);
+        let earthquakeTitle = earthquakeInfo[i].properties.title;
+        let numberOfStations = earthquakeInfo[i].properties.nst;
 
-      let detailsObj = {
-        id: id,
-        coordinates: { Latitude: lat, Longitude: long },
-        title: earthquakeTitle,
-        place: place,
-        magnitude: magnitude,
-        stations: numberOfStations,
-      };
-      MORE_DETAILS.push(detailsObj);
-      detail += `<div class="result-list"> 
+        let detailsObj = {
+          id: id,
+          coordinates: { Latitude: lat, Longitude: long },
+          title: earthquakeTitle,
+          place: place,
+          magnitude: magnitude,
+          stations: numberOfStations,
+        };
+        MORE_DETAILS.push(detailsObj);
+        detail += `<div class="result-list"> 
                      <div class="magnitude">
                      <h2 class="${colorClass}">${magnitude} </h2><span>Magnitude</span>
                      </div> 
@@ -106,17 +107,17 @@ function displayEarthquakeData(response) {
                     <p> <a class="learn-more" onclick="popupFn(${id})">View details</a>
                     </div>
                  </div>`;
+      }
     }
-  }
-  resultElement.innerHTML = detail;
+    resultElement.innerHTML = detail;
+  });
 }
 
 function fetchEarthquakeData(startDate, endDate, limit) {
   let apiUrl = `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=${startDate}&endtime=${endDate}&limit=${limit}`;
-  axios
-    .get(apiUrl)
-    .then(displayEarthquakeData)
-    .catch((error) => console.error("Error fetching data:", error));
+  return axios.get(apiUrl).then(function (response) {
+    return response;
+  });
 }
 
 //
@@ -136,10 +137,65 @@ function formatDate(event) {
   ) {
     alert("Please enter start date and end date!");
   } else {
-    fetchEarthquakeData(startDateElement, endDateElement, numberList);
+    displayEarthquakeData(startDateElement, endDateElement, numberList);
   }
 }
 
 let formElement = document.querySelector("#date-form");
 formElement.addEventListener("submit", formatDate);
 let MORE_DETAILS = [];
+
+let currentDate = new Date();
+let startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+let endDate = new Date(
+  currentDate.getFullYear(),
+  currentDate.getMonth() + 1,
+  0
+);
+
+function sortTopEqarthquakes(data) {
+  let dataList = [];
+  let widgetElement = document.querySelector(".widget-list");
+  let top5list = "";
+  let loading = document.querySelector("#widget-list-loading");
+  for (let i = 0; i < data.features.length; i++) {
+    let properties = {
+      magnitude: data.features[i].properties.mag,
+      place: data.features[i].properties.title,
+      time: data.features[i].properties.time,
+    };
+    dataList.push(properties);
+  }
+  let result = dataList.sort((a, b) => b.magnitude - a.magnitude).slice(0, 5);
+  for (let i = 0; i < result.length; i++) {
+    let magnitude_1 = result[i].magnitude;
+    let colormagnitude = changeColor(magnitude_1);
+    let place_1 = result[i].place;
+    let time_1 = formatTime(result[i].time);
+    top5list += `<div class="top5list"> 
+                     <div class="widget-magnitude">
+                     <h2 class="${colormagnitude} widget-magnitude">${magnitude_1} </h2><span class="widget-magnitude-keyword">Magnitude</span>
+                     </div> 
+                     <div class="widget-details"><p><span class="widget-place">${place_1}</span></p><span class="time-widget">${time_1[0]}</span> <span class="time-widget">${time_1[1]} </span>
+                    </div>
+                 </div>`;
+  }
+
+  setTimeout(() => {
+    loading.classList.add("hide");
+    widgetElement.innerHTML = top5list;
+  }, 2000);
+}
+
+function displayTopEarthquakes() {
+  let startDateStr = startDate.toLocaleDateString();
+  let endDateStr = endDate.toLocaleDateString();
+  console.log(startDateStr);
+  console.log(endDateStr);
+  fetchEarthquakeData(startDateStr, endDateStr, "").then((response) => {
+    console.log(response.data);
+    sortTopEqarthquakes(response.data);
+  });
+}
+
+displayTopEarthquakes();
