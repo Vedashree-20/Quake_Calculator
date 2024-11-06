@@ -20,15 +20,26 @@
     </style>
   </head>
   <body>
+    <header>
+      <h3>🌏 Quake Finder</h3>
+      <div class="headline">
+        <h1>
+          Real-Time Earthquake <br />
+          Data at Your Fingertips...
+        </h1>
+        <img src="Vector_earthquake.jpg" alt="Vector of earth" />
+      </div>
+    </header>
     <div class="outer-container">
+      <div class="widget-1">
+        <h4 class="subhead">Top 5 earthquakes of the month</h4>
+        <div class="widget-list">
+          <p id="widget-list-loading">Loading...</p>
+        </div>
+      </div>
+      <h4 class="subhead">Find earthquakes</h4>
       <div class="container">
         <div class="input-container">
-          <h3>🌏 Quake Finder</h3>
-          <h2>
-            Real-Time Earthquake <br />
-            Data at Your Fingertips
-          </h2>
-
           <form id="date-form">
             <div class="start">
               <label class="label" name="start-date">Start date </label>
@@ -52,16 +63,18 @@
             </div>
           </form>
         </div>
-        <div id="results" class="results"></div>
+        <div id="results" class="results">
+          <p class="results-text">"It’s a Bit Empty Here"</p>
+        </div>
         <div id="overlay"></div>
         <div id="popupModule"></div>
       </div>
-      <div class="widget-1">
-        <h4>Top 5 earthquakes of the month:</h4>
-        <div class="widget-list">
-          <p id="widget-list-loading">Loading...</p>
-        </div>
-      </div>
+    </div>
+    <div class="footer">
+      <p>
+        Earthquake finder made with 💕 by
+        <a href="https://github.com/Vedashree-20">vedashree Shere</a>
+      </p>
     </div>
     <script src="index.js"></script>
   </body>
